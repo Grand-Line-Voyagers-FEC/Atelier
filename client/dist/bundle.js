@@ -139,35 +139,108 @@ var StyleSelector = function StyleSelector() {
 
 /***/ }),
 
-/***/ "./client/src/store/productOverviewSlice.js":
-/*!**************************************************!*\
-  !*** ./client/src/store/productOverviewSlice.js ***!
-  \**************************************************/
+/***/ "./client/src/store/cartSlice.js":
+/*!***************************************!*\
+  !*** ./client/src/store/cartSlice.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   addToCart: () => (/* binding */ addToCart),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   loadCart: () => (/* binding */ loadCart),
+/* harmony export */   removeFromCart: () => (/* binding */ removeFromCart)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs");
+
+var initialState = {
+  cart: []
+};
+var cartSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+  name: 'cart',
+  initialState: initialState,
+  reducers: {
+    loadCart: function loadCart(state, action) {
+      state.cart = action.payload;
+    },
+    addToCart: function addToCart(state, payload) {
+      var _action$payload = action.payload,
+        sku_id = _action$payload.sku_id,
+        count = _action$payload.count;
+      var item = state.find(function (item) {
+        return item.sku_id === sku_id;
+      });
+      if (item) item.count++;else state.push({
+        sku_id: sku_id,
+        count: count
+      });
+    },
+    removeFromCart: function removeFromCart(state, payload) {
+      var _action$payload2 = action.payload,
+        sku_id = _action$payload2.sku_id,
+        count = _action$payload2.count;
+      var item = state.find(function (item) {
+        return item.sku_id === sku_id;
+      });
+      if (item) item.count--;
+    }
+  }
+});
+var _cartSlice$actions = cartSlice.actions,
+  loadCart = _cartSlice$actions.loadCart,
+  addToCart = _cartSlice$actions.addToCart,
+  removeFromCart = _cartSlice$actions.removeFromCart;
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cartSlice.reducer);
+
+/***/ }),
+
+/***/ "./client/src/store/productsSlice.js":
+/*!*******************************************!*\
+  !*** ./client/src/store/productsSlice.js ***!
+  \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   increase: () => (/* binding */ increase),
-/* harmony export */   productOverviewSlice: () => (/* binding */ productOverviewSlice)
+/* harmony export */   loadProductDetails: () => (/* binding */ loadProductDetails),
+/* harmony export */   loadProductStyles: () => (/* binding */ loadProductStyles),
+/* harmony export */   loadProducts: () => (/* binding */ loadProducts),
+/* harmony export */   productsSlice: () => (/* binding */ productsSlice)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs");
 
 var initialState = {
-  value: 0
+  productList: [],
+  productDetails: {},
+  productStyles: {}
 };
-var productOverviewSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
-  name: 'productOverview',
+var productsSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+  name: 'products',
   initialState: initialState,
   reducers: {
-    increase: function increase(state) {
-      state.value += 1;
+    loadProducts: function loadProducts(state, action) {
+      state.list = action.payload;
+    },
+    loadProductDetails: function loadProductDetails(state, action) {
+      state.productDetails = action.payload;
+    },
+    loadProductStyles: function loadProductStyles(state, action) {
+      var _action$payload = action.payload,
+        productDetails = _action$payload.productDetails,
+        styles = _action$payload.styles;
+      state.productStyles[productId] = styles;
     }
   }
 });
-var increase = productOverviewSlice.actions.increase;
+var _productsSlice$action = productsSlice.actions,
+  loadProducts = _productsSlice$action.loadProducts,
+  loadProductDetails = _productsSlice$action.loadProductDetails,
+  loadProductStyles = _productsSlice$action.loadProductStyles;
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (productOverviewSlice.reducer);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (productsSlice.reducer);
 
 /***/ }),
 
@@ -181,13 +254,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   store: () => (/* binding */ store)
 /* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs");
-/* harmony import */ var _productOverviewSlice_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./productOverviewSlice.js */ "./client/src/store/productOverviewSlice.js");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs");
+/* harmony import */ var _productsSlice_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./productsSlice.js */ "./client/src/store/productsSlice.js");
+/* harmony import */ var _cartSlice_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cartSlice.js */ "./client/src/store/cartSlice.js");
 
 
-var store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.configureStore)({
+
+var store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_2__.configureStore)({
   reducer: {
-    productOverview: _productOverviewSlice_js__WEBPACK_IMPORTED_MODULE_0__["default"]
+    products: _productsSlice_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+    cart: _cartSlice_js__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
